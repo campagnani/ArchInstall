@@ -53,7 +53,7 @@ sudo grub-mkconfig -o /boot/grub/grub.cfg
 Alguns programas úteis:
 
 ```
-sudo pacman -Syu grub-customizer qbittorrent gimp inkscape gedit gparted gnome-screenshot obs-studio torbrowser-launcher unrar unzip discord
+sudo pacman -Syu grub-customizer qbittorrent gimp inkscape gedit gparted obs-studio torbrowser-launcher unrar unzip discord
 ```
 
 Instalando ChaoticAUR:
