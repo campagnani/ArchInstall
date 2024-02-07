@@ -46,7 +46,7 @@ sudo pacman -Syu mkinitcpio-firmware
 Atualizando instalação do GRUB:
 
 ```
-sudo grub-install --target=x86_64-efi --efi-directory=esp --bootloader-id=Arch_Linux
+sudo grub-install --target=x86_64-efi --efi-directory=/boot/efi --bootloader-id=Arch_Linux
 sudo grub-mkconfig -o /boot/grub/grub.cfg
 ```
 
