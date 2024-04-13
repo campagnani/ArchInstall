@@ -73,8 +73,10 @@ if [[ $chaoric == "y" || $chaoric == "Y" ]]; then
     pacman -U 'https://cdn-mirror.chaotic.cx/chaotic-aur/chaotic-keyring.pkg.tar.zst'
     pacman -U 'https://cdn-mirror.chaotic.cx/chaotic-aur/chaotic-mirrorlist.pkg.tar.zst'
     echo """
+
     [chaotic-aur]
     Include = /etc/pacman.d/chaotic-mirrorlist
+    
     """ >> /etc/pacman.conf
     pacman -Sy visual-studio-code-bin google-chrome wps-office realvnc-vnc-viewer
 fi

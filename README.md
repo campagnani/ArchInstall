@@ -2,7 +2,16 @@
 
 Script de instalação do sistema operacional GNU via distribuição ArchLinux Rolling.
 
-## Procedimento
+Script baseado no guia de instalação official disponível na ArchWiki.
+
+OBS: Locale, conexão a internet e particionamento de disco são coisas muito pessoais, esse script está configurado respectivamente para:
+   - pt_BR
+   - IP fixo
+   - Partição home separada, com 1° patição para sistema EFI.
+
+Caso suas necessidades forem diferente disto, modifique o script baseando-se na ArchWiki antes de partir para o processo de instalação.
+
+## Passo a passo
 
 1. **Baixe a ArchISO**:
    - Acesse o site oficial do Arch Linux em [archlinux.org](https://archlinux.org/download/) e baixe a imagem ISO mais recente.
@@ -11,36 +20,35 @@ Script de instalação do sistema operacional GNU via distribuição ArchLinux R
    - Utilize um software de criação de mídia USB, como o Etcher, Rufus ou dd, para gravar a imagem ISO em um pendrive de pelo menos 2GB de capacidade.
 
 3. **Coloque os scripts em OUTRO pendrive**:
-   - Baixe todos os arquivos deste repositório e os coloque em um pendrive.
+   - Baixe todos os arquivos deste repositório e os coloque em um pendrive, modifique os scripts conforme suas necessidades.
 
 4. **Inicie o Computador a partir do Pendrive de Instalação**:
    - Insira o pendrive de instalação no computador e reinicie-o.
    - Acesse a BIOS ou o menu de inicialização do sistema e configure-o para inicializar a partir do pendrive.
+   - Após inicializar a partir do pendrive, você será recebido com um terminal de comandos. Este é o ambiente de instalação do Arch Linux.
 
 5. **Instalação**:
-   - Após inicializar a partir do pendrive, você será recebido com um terminal de comandos. Este é o ambiente de instalação do Arch Linux.
    - Insira o pendrive com os scripts.
-   - Monte pendrive de scripts com o comando `mount /dev/sdb1 /pendrive --mkdir`.
-   - Acesse o pendrive `cd /pendrive`.
-   - De permissão de execução para o primeiro scritp `chmod +x 1-preInstallGNU.sh`.
-   - Verifique se você possui uma conexão com a Internet. Você pode testar a conectividade com o comando `ping google.com`.
-   - Execute o script `1-preInstallGNU.sh` com o comando `./1-preInstallGNU.sh` e siga o passo a passo.
-   - OBS: Caso não tenha conectividade com a internet, este script poderá conectar a internet em caso de IP estático. Outros tipos de conexão serão adicionando futuramente. Caso sua conexão seja IP dinâmico, wifi, etc, acesse a ArchWiki para saber como conectar.
-   - OBS2: Os scritps 2, 3 e 4 só funcionam com conexão a internet. 
-
+   - Monte pendrive de scripts e acesse a pasta montada com o comando (talvez seu pendrive tenha outro nome de dispositivo, virifique com `fdisk -l`):
+    ```Bash
+    mount /dev/sdb1 /pendrive --mkdir && cd /pendrive
+    ```
+   - De permissão de execução e execute o primeiro script com o comando:
+    ```Bash
+    chmod +x 1-preInstallGNU.sh && ./1-preInstallGNU.sh
+    ```
+   - Agora só seguir o passo a passo do script.
 
 6. **Reinicie o Computador**:
    - Após concluir a execução de todos os scripts, reinicie o computador e remova o pendrive de instalação.
 
 ## Dicas e correções
 
-Corrigindo problemas de acesso em /etc/shadow:
+Algumas dicas e também correções de alguns problemas que eventualmente pode surgir.
 
-```Bash
-sudo chattr -a /etc/shadow
-```
+### Dicas
 
-Alterando locale para pt_BR:
+Alterando locale completo para pt_BR:
 
 ```Bash
 echo """
@@ -61,27 +69,6 @@ LC_TELEPHONE=pt_BR.UTF-8
 LC_TIME=pt_BR.UTF-8
 """ > locale.conf
 sudo mv locale.conf /etc/locale.conf
-```
-
-Corrigindo problema de chaves em uma grande atualização:
-
-```Bash
-sudo pacman -Sy archlinux-keyring
-sudo pacman -Syu
-```
-
-Corrigindo "possible missing firmware":
-
-```Bash
-#https://wiki.archlinux.org/title/mkinitcpio
-sudo pacman -Syu mkinitcpio-firmware
-```
-
-Atualizando instalação do GRUB:
-
-```Bash
-sudo grub-install --target=x86_64-efi --efi-directory=/boot/efi --bootloader-id=ArchLinux
-sudo grub-mkconfig -o /boot/grub/grub.cfg
 ```
 
 Alguns programas úteis:
@@ -114,4 +101,33 @@ Adicionando usuário com sudo:
 ```Bash
 ADDUSER=user #Coloque seu nome aqui
 sudo useradd -m $ADDUSER && sudo usermod -aG wheel $ADDUSER && sudo passwd $ADDUSER
+```
+
+### Correções
+
+Corrigindo problemas de acesso em /etc/shadow:
+
+```Bash
+sudo chattr -a /etc/shadow
+```
+
+Corrigindo problema de chaves em uma grande atualização:
+
+```Bash
+sudo pacman -Sy archlinux-keyring
+sudo pacman -Syu
+```
+
+Corrigindo "possible missing firmware":
+
+```Bash
+#https://wiki.archlinux.org/title/mkinitcpio
+sudo pacman -Syu mkinitcpio-firmware
+```
+
+Atualizando instalação do GRUB:
+
+```Bash
+sudo grub-install --target=x86_64-efi --efi-directory=/boot/efi --bootloader-id=ArchLinux
+sudo grub-mkconfig -o /boot/grub/grub.cfg
 ```
