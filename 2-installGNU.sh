@@ -69,7 +69,7 @@ cp -f pacman.conf /etc/pacman.conf
 
 # Instalação do sistema base
 echo "{[( Instalando sistema base )]}"
-pacstrap -K /mnt base linux linux-firmware intel-ucode grub efibootmgr os-prober nano vim e2fsprogs ntfs-3g networkmanager sudo openssh  
+pacstrap -K /mnt base linux linux-firmware intel-ucode grub efibootmgr os-prober nano vim e2fsprogs ntfs-3g networkmanager sudo openssh htop
 
 # Gerar fstab
 echo "{[( Gerando fstab )]}"
